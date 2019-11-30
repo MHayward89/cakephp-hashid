@@ -239,7 +239,11 @@ class HashidBehavior extends Behavior {
 
 			$results->each(function ($row, $key) use ($field, $idField, &$newResult) {
 				if (!empty($row[$idField])) {
-					$row[$field] = $this->encodeId($row[$idField]);
+                    if (is_int($row[$idField])) {
+                        $row[$field] = $this->encodeId($row[$idField]);
+                    } else {
+                        $row[$field] = $row[$idField];
+                    }
 					if ($row instanceof EntityInterface) {
 						$row->setDirty($field, false);
 					}
